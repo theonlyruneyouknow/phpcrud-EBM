@@ -1,0 +1,246 @@
+style.css
+
+What each file will contain:
+
+index.php — Home page for our CRUD app.
+create.php — Create new records with an HTML form and send data to the server with a POST request.
+read.php — Display records from our database table and navigate with pagination.
+update.php — Update existing records with an HTML form and send data to the server with a POST request.
+delete.php — Confirm and delete records by ID (GET request to get the ID).
+functions.php — Basic templating functions and MySQL connection function (so we don't have to repeat code in every file).
+style.css — The stylesheet for our app, which will change the appearance of our app.
+2. Creating the Database and setting-up Tables
+The MySQL database we'll use to store contacts and retrieve them with PHP. If you're using XAMPP, follow the below instructions.
+
+Navigate to http://localhost/phpmyadmin/
+Click Databases at the top
+Under Create database input phpcrud and select utf8_general_ci as the collation
+Click Create
+Select the newly created database
+Click the SQL tab and execute the below SQL:
+CREATE TABLE IF NOT EXISTS `contacts` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+  	`name` varchar(255) NOT NULL,
+  	`email` varchar(255) NOT NULL,
+  	`phone` varchar(255) NOT NULL,
+  	`title` varchar(255) NOT NULL,
+  	`created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+INSERT INTO `contacts` (`id`, `name`, `email`, `phone`, `title`, `created`) VALUES
+(1, 'John Doe', 'johndoe@example.com', '2026550143', 'Lawyer', '2019-05-08 17:32:00'),
+(2, 'David Deacon', 'daviddeacon@example.com', '2025550121', 'Employee', '2019-05-08 17:28:44'),
+(3, 'Sam White', 'samwhite@example.com', '2004550121', 'Employee', '2019-05-08 17:29:27'),
+(4, 'Colin Chaplin', 'colinchaplin@example.com', '2022550178', 'Supervisor', '2019-05-08 17:29:27'),
+(5, 'Ricky Waltz', 'rickywaltz@example.com', '7862342390', '', '2019-05-09 19:16:00'),
+(6, 'Arnold Hall', 'arnoldhall@example.com', '5089573579', 'Manager', '2019-05-09 19:17:00'),
+(7, 'Toni Adams', 'alvah1981@example.com', '2603668738', '', '2019-05-09 19:19:00'),
+(8, 'Donald Perry', 'donald1983@example.com', '7019007916', 'Employee', '2019-05-09 19:20:00'),
+(9, 'Joe McKinney', 'nadia.doole0@example.com', '6153353674', 'Employee', '2019-05-09 19:20:00'),
+(10, 'Angela Horst', 'angela1977@example.com', '3094234980', 'Assistant', '2019-05-09 19:21:00'),
+(11, 'James Jameson', 'james1965@example.com', '4002349823', 'Assistant', '2019-05-09 19:32:00'),
+(12, 'Daniel Deacon', 'danieldeacon@example.com', '5003423549', 'Manager', '2019-05-09 19:33:00');
+The above SQL will create the table: contacts, which we'll be using in our app, and included in the SQL is sample data — this data will be used for testing purposes to make sure everything is working as it should, you can delete it later on.
+
+There are six columns in the contacts table (id, name, email, phone, title, and created). The title column is basically the role of each contact. You can change this to anything you want. The sample data will use work roles as an example (Employee, Manager, etc.).
+
+In phpMyAdmin, the database should look like the following:
+
+phpMyAdmin CRUD Table
+3. Creating the Stylesheet (CSS3)
+The stylesheet will change the appearance of our app, edit the style.css file and add the following code:
+
+* {
+  	box-sizing: border-box;
+  	font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+  	font-size: 16px;
+  	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+}
+body {
+  	background-color: #FFFFFF;
+  	margin: 0;
+}
+.navtop {
+  	background-color: #3f69a8;
+  	height: 60px;
+  	width: 100%;
+  	border: 0;
+}
+.navtop div {
+  	display: flex;
+  	margin: 0 auto;
+  	width: 1000px;
+  	height: 100%;
+}
+.navtop div h1, .navtop div a {
+  	display: inline-flex;
+  	align-items: center;
+}
+.navtop div h1 {
+  	flex: 1;
+  	font-size: 24px;
+  	padding: 0;
+  	margin: 0;
+  	color: #ecf0f6;
+  	font-weight: normal;
+}
+.navtop div a {
+  	padding: 0 20px;
+  	text-decoration: none;
+  	color: #c5d2e5;
+  	font-weight: bold;
+}
+.navtop div a i {
+  	padding: 2px 8px 0 0;
+}
+.navtop div a:hover {
+  	color: #ecf0f6;
+}
+.content {
+  	width: 1000px;
+  	margin: 0 auto;
+}
+.content h2 {
+  	margin: 0;
+  	padding: 25px 0;
+  	font-size: 22px;
+  	border-bottom: 1px solid #ebebeb;
+  	color: #666666;
+}
+.read .create-contact {
+  	display: inline-block;
+  	text-decoration: none;
+  	background-color: #38b673;
+  	font-weight: bold;
+  	font-size: 14px;
+  	color: #FFFFFF;
+  	padding: 10px 15px;
+  	margin: 15px 0;
+}
+.read .create-contact:hover {
+  	background-color: #32a367;
+}
+.read .pagination {
+  	display: flex;
+  	justify-content: flex-end;
+}
+.read .pagination a {
+  	display: inline-block;
+  	text-decoration: none;
+  	background-color: #a5a7a9;
+  	font-weight: bold;
+  	color: #FFFFFF;
+  	padding: 5px 10px;
+  	margin: 15px 0 15px 5px;
+}
+.read .pagination a:hover {
+  	background-color: #999b9d;
+}
+.read table {
+  	width: 100%;
+  	padding-top: 30px;
+  	border-collapse: collapse;
+}
+.read table thead {
+  	background-color: #ebeef1;
+  	border-bottom: 1px solid #d3dae0;
+}
+.read table thead td {
+  	padding: 10px;
+  	font-weight: bold;
+  	color: #767779;
+  	font-size: 14px;
+}
+.read table tbody tr {
+  	border-bottom: 1px solid #d3dae0;
+}
+.read table tbody tr:nth-child(even) {
+  	background-color: #fbfcfc;
+}
+.read table tbody tr:hover {
+  	background-color: #376ab7;
+}
+.read table tbody tr:hover td {
+  	color: #FFFFFF;
+}
+.read table tbody tr:hover td:nth-child(1) {
+  	color: #FFFFFF;
+}
+.read table tbody tr td {
+  	padding: 10px;
+}
+.read table tbody tr td:nth-child(1) {
+  	color: #a5a7a9;
+}
+.read table tbody tr td.actions {
+  	padding: 8px;
+  	text-align: right;
+}
+.read table tbody tr td.actions .edit, .read table tbody tr td.actions .trash {
+  	display: inline-flex;
+  	text-align: right;
+  	text-decoration: none;
+  	color: #FFFFFF;
+  	padding: 10px 12px;
+}
+.read table tbody tr td.actions .trash {
+  	background-color: #b73737;
+}
+.read table tbody tr td.actions .trash:hover {
+  	background-color: #a33131;
+}
+.read table tbody tr td.actions .edit {
+  	background-color: #37afb7;
+}
+.read table tbody tr td.actions .edit:hover {
+  	background-color: #319ca3;
+}
+.update form {
+  	padding: 15px 0;
+  	display: flex;
+  	flex-flow: wrap;
+}
+.update form label {
+  	display: inline-flex;
+  	width: 400px;
+  	padding: 10px 0;
+  	margin-right: 25px;
+}
+.update form input {
+  	padding: 10px;
+  	width: 400px;
+  	margin-right: 25px;
+  	margin-bottom: 15px;
+  	border: 1px solid #cccccc;
+}
+.update form input[type="submit"] {
+  	display: block;
+  	background-color: #38b673;
+  	border: 0;
+  	font-weight: bold;
+  	font-size: 14px;
+  	color: #FFFFFF;
+  	cursor: pointer;
+  	width: 200px;
+	margin-top: 15px;
+}
+.update form input[type="submit"]:hover {
+  	background-color: #32a367;
+}
+.delete .yesno {
+  	display: flex;
+}
+.delete .yesno a {
+  	display: inline-block;
+  	text-decoration: none;
+  	background-color: #38b673;
+  	font-weight: bold;
+  	color: #FFFFFF;
+  	padding: 10px 15px;
+  	margin: 15px 10px 15px 0;
+}
+.delete .yesno a:hover {
+  	background-color: #32a367;
+}
